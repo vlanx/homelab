@@ -24,8 +24,7 @@ After the container template is created, Go to the container network settings an
 Access the container via the console on proxmox.
 Go to `/etc/config` and edit the `firewall` file.
 
-Add the following rules to allow access to the dashboard from WAN and to allow DHCP clients to get their IP address:
-Im not sure if this DHCP rule is necessary, but i put it either way.
+Add the following rules to allow access to the dashboard from WAN:
 
 ```
 config rule
@@ -34,14 +33,6 @@ config rule
 	option proto            tcp
 	option dest_port        443
 	option target	ACCEPT
-
-config rule
-        option name 'Allow-DHCP'
-        option src 'lan'
-        option src_port '67-68'
-        list dest_ip '10.10.1.1'
-        option dest_port '67-68'
-        option target 'ACCEPT'
 ```
 
 Apply the changes with: `fw4 reload`. You can now access the OpenWRT dashboard.
@@ -52,11 +43,10 @@ Add the eth1 interface and set its static IP address for the LAN network (10.10.
 The IPv4 gateway, you want to set it to the gateway of your *WAN*.
 Also navigate to the DHCP Server tab if you want your OpenWRT to be the dhcp server for this LAN (I do.)
 
-###### In the Firewall settings, accept all traffic (Input, Output,Forward)
+###### In the Firewall General settings, accept traffic from Input, Output and Forward.
+I don't know if this is the safest way, but its the only one i know that allows my VLAN VMs to access the internet. I should just get a dedicated router image instead of a firewall but oh well.
 
-### NAT traffic for your LAN to the internet
-
-In the OpenWRT dashboard, navigate to Network -> Firewall. At the bottom, in the Zones section, tick the checkbox `Masquerading` for the LAN -> WAN Zone.
+### NAT is enabled by default, so no need to do anything extra.
 
 ### Allow SSH traffic from the WAN (either your laptop or the proxmox nodes themselves where the VMs reside).
 
