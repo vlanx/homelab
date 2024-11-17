@@ -1,17 +1,22 @@
 ## [OpenWRT] as a container config for Proxmox.
 
 Paste the following into a bash script file:
-
 ```
 #!/bin/bash
 
 url=$1
 cid=$2
 cname=$3
-wget $url -O /tmp/openwrtimage.tar.xz
-pct create $cid /tmp/openwrtimage.tar.xz --ostype unmanaged --hostname $name --net0 name=eth0 --net1 name=eth1 --storage local-lvm
+wget "$url" -O /tmp/openwrtimage.tar.xz
+pct create $cid /tmp/openwrtimage.tar.xz --ostype unmanaged --hostname $cname --net0 name=eth0,bridge=vmbr0,ip=dhcp --net1 name=eth1,bridge=vn100,tag=100,mtu=1450 --storage local-lvm
 rm /tmp/openwrtimage.tar.xz
 ```
+# THE MOST IMPORTANT THING
+
+I spent countless hours wondering why, for some reason, HTTP (Port 80) traffic wouldn't pass via OpenWRT to my Machines that were residing in a different cluster node than the OpenWRT.
+The f@c#i@g problem was the MTU size. Set it to 1450 in the LAN interfaces. That solved my problem...
+
+I set the eth0 interface to get its IP via dhcp, and set it to vmbr0 interface, and set the VLAN and TAG to the eth1 LAN interface. NOTICE THE MTU PARAMETER!
 
 Then just run in like:
 ```
@@ -60,3 +65,4 @@ ip route add 10.10.1.0/24 via 192.168.1.X
 ```
 
 I need to make a firewall rule to only allow specific devices to connect via SSH, ill look into it in the future.
+
