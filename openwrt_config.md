@@ -13,7 +13,7 @@ rm /tmp/openwrtimage.tar.xz
 ```
 # THE MOST IMPORTANT THING
 
-I spent countless hours wondering why, for some reason, HTTP (Port 80) traffic wouldn't pass via OpenWRT to my VMs that were in a different cluster node than the OpenWRT container.
+I spent countless hours wondering why, for some reason, only HTTP (Port 80) traffic wouldn't pass via OpenWRT to my VMs that were in a different cluster node than the OpenWRT container. Everything else was working (dhcp, NAT, ping each other, etc.).
 The f@c#i@g problem was the MTU size. Setting it to 1450 in the LAN interface solved it...
 
 I set the eth0 interface to get its IP via dhcp, and set it to vmbr0 interface, and set the VLAN and TAG to the eth1 LAN interface. NOTICE THE MTU PARAMETER!
