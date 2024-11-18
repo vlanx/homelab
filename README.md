@@ -1,6 +1,7 @@
 # Homelab
 
 ![Setup](homelab.svg "Homelab")
+![Diagram](network.png "Network Diagram")
 
 # Firewall/Router
 [OpenWRT Config](./openwrt_config.md)
