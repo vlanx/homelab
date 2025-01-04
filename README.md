@@ -1,7 +1,7 @@
 # Homelab
 
 ![Setup](homelab.svg "Homelab")
-![Diagram](network.png "Network Diagram")
+![Diagram](network.svg "Network Diagram")
 
 # Router for the VLANs network.
 [OpenWRT Config](./openwrt_config.md)
