@@ -1,0 +1,7 @@
+[Unit]
+Description="Cloudflare Dynamic DNS records update"
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/cloudflare-template.sh
+ExecStart=/usr/local/sbin/cloudflare-templatev6.sh

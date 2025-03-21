@@ -46,3 +46,15 @@ The script is [here](./scripts/color_sensors.awk)
 Grabbing temperatures every 5s: `watch -n 5 -c 'sensors | ./color_sensors.awk'`
 
 ![sensors](sensors.png "Sensors Output")
+
+# Cloudflare Dynamic DNS records update
+
+Up until recently I was using `no-ip` Dynamic DNS service to map a domain to my router's IPv4/6 addresses. My router's ISP even had a dedicated DDNS page to input `no-ip` credentials.
+Anyway, with `no-ip` you have to manually confirm your DDNS subdomain every 30 days and you can only have one. Very tiring.
+
+Since I had a Cloudflare domain of my own (`tiagobarros.xyz`), I created two more subdomains for my IPv4/6 addresses there (ex: `v4.tiagobarros.xyz`) and then used a script to update the addresses that those subdomains point to.
+
+The script is not mine and is available here: [cloudflare-ddns-updater](https://github.com/K0p1-Git/cloudflare-ddns-updater.git)
+
+To have this script running _all the time_, I setup a `systemd` service and timer. Those files are [here](./scripts/sytstemd/). It simply runs the script 1 minute after boot and then every 5 minutes.
+The cloudflare update scripts were placed in `/usr/local/sbin`. Edit those accordingly to your case.
