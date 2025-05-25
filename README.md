@@ -58,3 +58,22 @@ The script is not mine and is available here: [cloudflare-ddns-updater](https://
 
 To have this script running _all the time_, I setup a `systemd` service and timer. Those files are [here](./scripts/sytstemd/). It simply runs the script 1 minute after boot and then every 5 minutes.
 The cloudflare update scripts were placed in `/usr/local/sbin`. Edit those accordingly to your case.
+
+# Reverse Proxy
+
+I finally decided to serve every webpage or dashboard behind a domain because I wanted a clean `HTTPS` connection.
+
+For that reason I decided to learn a bit about `nginx`, install, and configure it to sit in front of my Homelab's services and terminate TLS connections.
+It was rather easy, mostly because I didn't do incredibly complex stuff. Just configure it to listen on `443`, serve a specific domain, forward it inside. Only allow VPN or LAN clients, which was just 2 lines of configuration, plus another 2 to specify the certificate (more on that below).
+
+I also decided to install `fail2ban` alongside it to ban any bad actor IP. I don't expect much to be hitting my domains but still. It was also fun and easy to setup.
+
+
+# Certificates!
+
+I now provide certificates for my Proxmox and Grafana dashboards, plus a Webhook for Github webhooks to trigger Jenkins stuff.
+They are done with `certbot` and `Let's Encrypt`. It was painfully easy to set it up. They automatically generate certificates and auto-renew them for the new sub-domains I created in Cloudflare.
+
+For example, my `proxmox.tiagobarros.xyz` sub-domain in Cloudflare is just a `CNAME` record pointing to `v6.tiagobarros.xyz`. Don't worry, as per `nginx` rules, only VPN clients and my own LAN can access it lol. `fail2ban` will also ban bad IP addresses.
+
+Certbot has a dedicated python package to specifically renew domains/sub-domains from Cloudflare, hence why it was so easy. [Docs here!](https://certbot-dns-cloudflare.readthedocs.io/en/stable/index.html)
