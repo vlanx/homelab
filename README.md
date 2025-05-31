@@ -1,7 +1,7 @@
 # Homelab
 
 ![Setup](homelab.svg "Homelab")
-![Diagram](network.png "Network Diagram")
+![Diagram](network-topology.png "Network Diagram")
 
 # Router for the VLANs network.
 [OpenWRT Config](./openwrt_config.md)
@@ -66,7 +66,7 @@ I finally decided to serve every webpage or dashboard behind a domain because I 
 For that reason I decided to learn a bit about `nginx`, install, and configure it to sit in front of my Homelab's services and terminate TLS connections.
 It was rather easy, mostly because I didn't do incredibly complex stuff. Just configure it to listen on `443`, serve a specific domain, forward it inside. Only allow VPN or LAN clients, which was just 2 lines of configuration, plus another 2 to specify the certificate (more on that below).
 
-I also decided to install `fail2ban` alongside it to ban any bad actor IP. I don't expect much to be hitting my domains but still. It was also fun and easy to setup.
+I also decided to install `fail2ban` alongside it to ban any bad actor IP (http return codes 444/403). I don't expect much to be hitting my domains/address but still. It was also fun and easy to setup. 
 
 
 # Certificates!
