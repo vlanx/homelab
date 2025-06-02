@@ -77,3 +77,12 @@ They are done with `certbot` and `Let's Encrypt`. It was painfully easy to set i
 For example, my `proxmox.tiagobarros.xyz` sub-domain in Cloudflare is just a `CNAME` record pointing to `v6.tiagobarros.xyz`. Don't worry, as per `nginx` rules, only VPN clients and my own LAN can access it lol. `fail2ban` will also ban bad IP addresses.
 
 Certbot has a dedicated python package to specifically renew domains/sub-domains from Cloudflare, hence why it was so easy. [Docs here!](https://certbot-dns-cloudflare.readthedocs.io/en/stable/index.html)
+
+# Grafana 
+
+I setup [prometheus node exporter](https://github.com/prometheus/node_exporter), a custom node exporter for [Proxmox VE](https://github.com/prometheus-pve/prometheus-pve-exporter) and a Prometheus instance to scrape from all those exporters.
+
+I also setup a Grafana instance to display some of those metrics. I took [this](https://grafana.com/grafana/dashboards/1860-node-exporter-full/) dashboard as inspiration and trimmed it down to only what I felt was relevant at a quick glance.
+I left the full dashboard with all metrics configured too, though I barely look at it. The trimmed down one gives me all I need (for now at least).
+
+![image](grafana.png)
