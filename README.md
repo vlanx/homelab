@@ -34,19 +34,6 @@ Setting up the devices to be Wake On LAN ready is pretty straightforward. I just
 
 In an attempt to reduce the effective power draw form the CPU, since im not focused on very performant scenarios/deployments, I've used the [scaling-governor](https://community-scripts.github.io/ProxmoxVE/scripts?id=scaling-governor) script to my cpu scaling mode to powersave.
 
-# Temperature monitoring
-
-For a while i thought about implementing a fancy prometheus or influxDB (which is natively by proxmox) metrics collection system to then display in a Grafana Dashboard.
-
-That is way overkill. I'm really only interested in the temperatures of the CPU. The homelab will not be serving anyone besides me and my VMs. I just dont want the house burning down.
-
-I just grabbed from the Internet an `awk` script which basically colors my `sensors` output, and leave it running in a tmux window which i check periodically. In the future i'll make the window flash something to grab my attention immediately.
-The script is [here](./scripts/color_sensors.awk)
-
-Grabbing temperatures every 5s: `watch -n 5 -c 'sensors | ./color_sensors.awk'`
-
-![sensors](sensors.png "Sensors Output")
-
 # Cloudflare Dynamic DNS records update
 
 Up until recently I was using `no-ip` Dynamic DNS service to map a domain to my router's IPv4/6 addresses. My router's ISP even had a dedicated DDNS page to input `no-ip` credentials.
@@ -78,11 +65,15 @@ For example, my `proxmox.tiagobarros.xyz` sub-domain in Cloudflare is just a `CN
 
 Certbot has a dedicated python package to specifically renew domains/sub-domains from Cloudflare, hence why it was so easy. [Docs here!](https://certbot-dns-cloudflare.readthedocs.io/en/stable/index.html)
 
-# Grafana 
+# Monitoring Stack: Grafana | Prometheus | Loki | Node Exporter | Grafana Alloy
 
 I setup [prometheus node exporter](https://github.com/prometheus/node_exporter), a custom node exporter for [Proxmox VE](https://github.com/prometheus-pve/prometheus-pve-exporter) and a Prometheus instance to scrape from all those exporters.
 
 I also setup a Grafana instance to display some of those metrics. I took [this](https://grafana.com/grafana/dashboards/1860-node-exporter-full/) dashboard as inspiration and trimmed it down to only what I felt was relevant at a quick glance.
 I left the full dashboard with all metrics configured too, though I barely look at it. The trimmed down one gives me all I need (for now at least).
+Additionally, I wanted to monitor logs for `nginx` and `fail2ban`, so I head to install `Loki` alongside `Grafana Alloy`, which is the equivalent of Prometheus and Node exporter respectively.
+This was a bit more tricky to create a dashboard to, since I had to fiddle with regex to filter the logs lines.
 
 ![image](grafana.png)
+
+![image](loki.png)
