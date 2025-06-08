@@ -72,8 +72,9 @@ I setup [prometheus node exporter](https://github.com/prometheus/node_exporter),
 
 I also setup a Grafana instance to display some of those metrics. I took [this](https://grafana.com/grafana/dashboards/1860-node-exporter-full/) dashboard as inspiration and trimmed it down to only what I felt was relevant at a quick glance.
 I left the full dashboard with all metrics configured too, though I barely look at it. The trimmed down one gives me all I need (for now at least).
+
 Additionally, I wanted to monitor logs for `nginx` and `fail2ban`, so I head to install `Loki` alongside `Grafana Alloy`, which is the equivalent of Prometheus and Node exporter respectively.
-This was a bit more tricky to create a dashboard to, since I had to fiddle with regex to filter the logs lines.
+This was a bit more tricky to create a dashboard to, since I had to fiddle with regex to filter the logs lines. [dashboard inspiration](https://grafana.com/grafana/dashboards/12559-loki-nginx-service-mesh-json-version/)
 
 ![image](grafana.png)
 
