@@ -65,7 +65,8 @@ For example, my `proxmox.tiagobarros.xyz` sub-domain in Cloudflare is just a `CN
 
 Certbot has a dedicated python package to specifically renew domains/sub-domains from Cloudflare, hence why it was so easy. [Docs here!](https://certbot-dns-cloudflare.readthedocs.io/en/stable/index.html)
 
-# Monitoring Stack: Grafana | Prometheus | Loki | Node Exporter | Grafana Alloy
+# Monitoring Stack: 
+### Grafana | Prometheus | Loki | Node Exporter | Grafana Alloy
 
 I setup [prometheus node exporter](https://github.com/prometheus/node_exporter), a custom node exporter for [Proxmox VE](https://github.com/prometheus-pve/prometheus-pve-exporter) and a Prometheus instance to scrape from all those exporters.
 
@@ -77,3 +78,4 @@ This was a bit more tricky to create a dashboard to, since I had to fiddle with 
 ![image](grafana.png)
 
 ![image](loki.png)
+PS: This does not contain any sensitive information lol. Its just IP addresses.
